@@ -5,12 +5,14 @@ using UnityEngine.InputSystem;
 
 public class PlayerShooting : MonoBehaviour
 {
+    public int bulletsAmount;
     public GameObject prefab;
     public GameObject shootPoint;
     public ParticleSystem muzzleFX;
     public AudioSource shootSound;
     public void OnFire(InputValue value) {
         if (value.isPressed) {
+            bulletsAmount--;
             GameObject clone = Instantiate(prefab);
 
             clone.transform.position = shootPoint.transform.position;
