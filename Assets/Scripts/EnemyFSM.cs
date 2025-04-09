@@ -14,8 +14,15 @@ public class EnemyFSM : MonoBehaviour
     public float lastShootTime;
     public GameObject bulletPrefab;
     public float fireRate;
+    Animator animator;
+    private void Awake() {
+        baseTransform = GameObject.Find("BaseDamagePoint").transform;
+        agent = GetComponentInParent<UnityEngine.AI.NavMeshAgent>();
+        animator = GetComponentInParent<Animator>();
+    }
 
     void GoToBase() {
+        animator.SetBool("Shooting", false);
         agent.isStopped = false;
         agent.SetDestination(baseTransform.position);
         if (sightSensor.detectedObject != null) {
@@ -33,6 +40,7 @@ public class EnemyFSM : MonoBehaviour
         Shoot();
     }
     void ChasePlayer() {
+        animator.SetBool("Shooting", false);
         agent.isStopped = false;
         if (sightSensor.detectedObject == null) {
             currentState = EnemyState.GoToBase;
@@ -83,11 +91,9 @@ public class EnemyFSM : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, baseAttackDistance);
     }
 
-    private void Awake() {
-        baseTransform = GameObject.Find("BaseDamagePoint").transform;
-        agent = GetComponentInParent<UnityEngine.AI.NavMeshAgent>();
-    }
+    
     void Shoot() {
+        animator.SetBool("Shooting", true);
         var timeSinceLastShoot = Time.time - lastShootTime;
         if (timeSinceLastShoot > fireRate) {
             lastShootTime = Time.time;

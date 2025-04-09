@@ -11,10 +11,16 @@ public class PlayerShooting : MonoBehaviour
     public ParticleSystem muzzleFX;
     public AudioSource shootSound;
     public float fireRate;
+    Animator animator;
+    private void Awake() {
+        animator = GetComponent<Animator>();
+    }
     public void OnFire(InputValue value) {
+        animator.SetBool("Shooting", value.isPressed);
         if (value.isPressed) {
             InvokeRepeating("Shoot", fireRate, fireRate);
-        } else {
+        } 
+        else {
             CancelInvoke();
         }
     }

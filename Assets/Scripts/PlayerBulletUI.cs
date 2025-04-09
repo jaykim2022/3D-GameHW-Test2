@@ -12,6 +12,6 @@ public class PlayerBulletUI : MonoBehaviour
     }
     void Update()
     {
-        text.text = "BULLETS: " + (100 + targetShooting.bulletsAmount);
+        text.text = "BULLETS: " + (targetShooting.bulletsAmount);
     }
 }
