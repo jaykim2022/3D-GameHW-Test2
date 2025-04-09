@@ -10,8 +10,16 @@ public class PlayerShooting : MonoBehaviour
     public GameObject shootPoint;
     public ParticleSystem muzzleFX;
     public AudioSource shootSound;
+    public float fireRate;
     public void OnFire(InputValue value) {
         if (value.isPressed) {
+            InvokeRepeating("Shoot", fireRate, fireRate);
+        } else {
+            CancelInvoke();
+        }
+    }
+    public void Shoot() {
+        if (bulletsAmount > 0 && Time.timeScale > 0) {
             bulletsAmount--;
             GameObject clone = Instantiate(prefab);
 
